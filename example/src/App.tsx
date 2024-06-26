@@ -1,31 +1,46 @@
 import * as React from 'react';
+import { Custom } from './custom/Custom';
+import { View, StyleSheet } from 'react-native';
+import { Button } from './custom/components/Button';
+import { Basic } from './basic/Basic';
 
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-app-onboard';
+type Screen = 'Basic' | 'Custom';
 
-export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
+type MainAppProps = {
+  setExample: React.Dispatch<React.SetStateAction<Screen | undefined>>;
+};
 
-  React.useEffect(() => {
-    multiply(3, 7).then(setResult);
-  }, []);
-
+function MainApp(props: MainAppProps) {
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Button onPress={() => props.setExample('Basic')} label="Show Basic" />
+      <Button
+        onPress={() => props.setExample('Custom')}
+        backgroundColor="#00ACA1"
+        label="Show Custom"
+      />
     </View>
+  );
+}
+
+export default function App() {
+  const [example, setShowExample] = React.useState<Screen>();
+
+  return example === 'Custom' ? (
+    <Custom onDone={() => setShowExample(undefined)} />
+  ) : example === 'Basic' ? (
+    <Basic onDone={() => setShowExample(undefined)} />
+  ) : (
+    <MainApp setExample={setShowExample} />
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
-  },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
+    alignItems: 'center',
+    paddingHorizontal: 50,
+    gap: 20,
   },
 });

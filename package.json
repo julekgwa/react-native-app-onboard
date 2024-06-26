@@ -59,6 +59,7 @@
     "@release-it/conventional-changelog": "^5.0.0",
     "@types/jest": "^29.5.5",
     "@types/react": "^18.2.44",
+    "@types/tinycolor2": "^1.4.6",
     "commitlint": "^17.0.2",
     "del-cli": "^5.1.0",
     "eslint": "^8.51.0",
@@ -79,9 +80,6 @@
     "react": "*",
     "react-native": "*"
   },
-  "workspaces": [
-    "example"
-  ],
   "packageManager": "yarn@3.6.1",
   "jest": {
     "preset": "react-native",
@@ -155,5 +153,8 @@
         }
       ]
     ]
+  },
+  "dependencies": {
+    "tinycolor2": "^1.6.0"
   }
 }
