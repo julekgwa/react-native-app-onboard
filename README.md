@@ -7,7 +7,7 @@ React Native App Onboard is a customizable, easy-to-use, and efficient library f
 | --------------------- | --------------------- | ------------------ |
 
 
-[Expo Snack example](https://snack.expo.dev/@lekgwaraj/react-native-app-onboard)
+[Expo Snack example](https://snack.expo.dev/@lekgwaraj/react-native-app-onboard?platform=ios)
 
 ## Installation
 
