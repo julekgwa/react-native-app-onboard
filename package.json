@@ -1,6 +1,6 @@
 {
   "name": "react-native-app-onboard",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "React Native App Onboard is a customizable, easy-to-use, and efficient library for creating compelling onboarding experiences for your React Native applications. It provides smooth, fluid transitions and animations, with a focus on simplicity and usability.",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
