@@ -6,6 +6,9 @@ React Native App Onboard is a customizable, easy-to-use, and efficient library f
 | ![](example/assets/IMG_2179.PNG) | ![](example/assets/IMG_2180.PNG) | ![](example/assets/IMG_2181.PNG) |
 | --------------------- | --------------------- | ------------------ |
 
+
+[Expo Snack example](https://snack.expo.dev/@lekgwaraj/react-native-app-onboard)
+
 ## Installation
 
 ```sh
@@ -49,8 +52,6 @@ const App = () => {
 
 export default App;
 ```
-
-## Props
 
 ## Props
 

@@ -24,6 +24,7 @@ export type SliderProps = {
 
 export const CustomPages = ({
   showPagination = true,
+  showNext = true,
   ...props
 }: CustomPagesProps) => {
   return (
@@ -46,6 +47,7 @@ export const CustomPages = ({
               showSkip={props.showSkip}
               numberOfScreens={props.numberOfScreens}
               skipLabel={props.skipLabel}
+              showNext={showNext}
               nextLabel={props.nextLabel}
               doneLabel={props.doneLabel}
               paginationContainerStyle={props.paginationContainerStyle}
@@ -110,6 +112,7 @@ export const CustomPages = ({
               numberOfScreens={props.numberOfScreens}
               skipLabel={props.skipLabel}
               nextLabel={props.nextLabel}
+              showNext={showNext}
               doneLabel={props.doneLabel}
               paginationContainerStyle={props.paginationContainerStyle}
               buttonRightContainerStyle={props.buttonRightContainerStyle}

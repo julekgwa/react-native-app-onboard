@@ -16,7 +16,11 @@ type Props = OnboardingProps & {
   nextPage: () => void;
 };
 
-export const OnboardingPages = ({ showPagination = true, ...props }: Props) => {
+export const OnboardingPages = ({
+  showPagination = true,
+  showNext = true,
+  ...props
+}: Props) => {
   const backgroundColorAnim = useRef(new Animated.Value(0)).current;
   const [previousPage, setPreviousPage] = React.useState(0);
   const currentPage_ = props.pages[props.currentPage];
@@ -64,6 +68,7 @@ export const OnboardingPages = ({ showPagination = true, ...props }: Props) => {
               onNext={props.nextPage}
               onSkip={props.onSkip}
               color={color}
+              showNext={showNext}
               onDone={props.onDone}
               showDone={props.showDone}
               backgroundColor={footerBackgroundColor}
@@ -131,6 +136,7 @@ export const OnboardingPages = ({ showPagination = true, ...props }: Props) => {
             dotsContainerStyle={props.dotsContainerStyle}
             doneLabelStyle={props.doneLabelStyle}
             skipLabelStyle={props.skipLabelStyle}
+            showNext={showNext}
             nextLabelStyle={props.nextLabelStyle}
           />
         </>

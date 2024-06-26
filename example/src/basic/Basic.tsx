@@ -11,7 +11,7 @@ export function Basic(props: ScreenProps) {
     <Onboarding
       showDone={true}
       showSkip={true}
-      showNext={false}
+      showNext={true}
       onSkip={props.onDone}
       onDone={props.onDone}
       paginationPosition="bottom"

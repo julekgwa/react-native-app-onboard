@@ -28,6 +28,7 @@ export const Swiper: React.FC<OnboardingProps> = (props) => {
         numberOfScreens={numberOfScreens}
         nextPage={nextPage}
         showDone={props.showDone}
+        showNext={props.showNext}
         onDone={props.onDone}
       >
         {props.children}
@@ -49,6 +50,7 @@ export const Swiper: React.FC<OnboardingProps> = (props) => {
       onDone={props.onDone}
       pages={props.pages || []}
       width={props.width}
+      showNext={props.showNext}
       color={props.color}
       onSkip={props.onSkip}
     />
