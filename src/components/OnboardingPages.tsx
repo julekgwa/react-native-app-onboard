@@ -71,9 +71,9 @@ export const OnboardingPages = ({
           {showPagination &&
             props.customFooter &&
             props.customFooter({ nextPage: props.nextPage })}
-          {!props.customFooter && (
+          {!props.customFooter && showPagination && (
             <Pagination
-              width={width}
+              width={props.width || width}
               onNext={props.nextPage}
               onSkip={props.onSkip}
               color={color}
@@ -110,16 +110,21 @@ export const OnboardingPages = ({
         showsHorizontalScrollIndicator={false}
         keyExtractor={(_, index) => index.toString()}
         renderItem={({ item, index }) => (
-          <OnboardingPage color={color} width={width} key={index} {...item} />
+          <OnboardingPage
+            color={color}
+            width={props.width || width}
+            key={index}
+            {...item}
+          />
         )}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { x: props.scrollX } } }],
           { useNativeDriver: false }
         )}
-        scrollEventThrottle={16} // Adjusted for better performance
+        scrollEventThrottle={16}
         onMomentumScrollEnd={(event) => {
           const pageIndex = Math.round(
-            event.nativeEvent.contentOffset.x / width
+            event.nativeEvent.contentOffset.x / (props.width || width)
           );
           setPage_(pageIndex || 0);
         }}
@@ -129,33 +134,35 @@ export const OnboardingPages = ({
           {showPagination &&
             props.customFooter &&
             props.customFooter({ nextPage: props.nextPage })}
-          <Pagination
-            width={width}
-            onNext={props.nextPage}
-            onSkip={props.onSkip}
-            color={color}
-            hasSkipPosition={!!props.skipButtonPosition}
-            onDone={props.onDone}
-            showDone={props.showDone}
-            backgroundColor={footerBackgroundColor}
-            animatedValue={props.scrollX}
-            showSkip={props.showSkip}
-            numberOfScreens={props.pages.length}
-            skipLabel={props.skipLabel}
-            nextLabel={props.nextLabel}
-            doneLabel={props.doneLabel}
-            paginationContainerStyle={props.paginationContainerStyle}
-            buttonRightContainerStyle={props.buttonRightContainerStyle}
-            buttonLeftContainerStyle={props.buttonLeftContainerStyle}
-            dotsContainerStyle={props.dotsContainerStyle}
-            doneLabelStyle={props.doneLabelStyle}
-            skipLabelStyle={props.skipLabelStyle}
-            skipButtonContainerStyle={props.skipButtonContainerStyle}
-            nextButtonContainerStyle={props.nextButtonContainerStyle}
-            doneButtonContainerStyle={props.doneButtonContainerStyle}
-            showNext={showNext}
-            nextLabelStyle={props.nextLabelStyle}
-          />
+          {!props.customFooter && showPagination && (
+            <Pagination
+              width={props.width || width}
+              onNext={props.nextPage}
+              onSkip={props.onSkip}
+              color={color}
+              hasSkipPosition={!!props.skipButtonPosition}
+              onDone={props.onDone}
+              showDone={props.showDone}
+              backgroundColor={footerBackgroundColor}
+              animatedValue={props.scrollX}
+              showSkip={props.showSkip}
+              numberOfScreens={props.pages.length}
+              skipLabel={props.skipLabel}
+              nextLabel={props.nextLabel}
+              doneLabel={props.doneLabel}
+              paginationContainerStyle={props.paginationContainerStyle}
+              buttonRightContainerStyle={props.buttonRightContainerStyle}
+              buttonLeftContainerStyle={props.buttonLeftContainerStyle}
+              dotsContainerStyle={props.dotsContainerStyle}
+              doneLabelStyle={props.doneLabelStyle}
+              skipLabelStyle={props.skipLabelStyle}
+              skipButtonContainerStyle={props.skipButtonContainerStyle}
+              nextButtonContainerStyle={props.nextButtonContainerStyle}
+              doneButtonContainerStyle={props.doneButtonContainerStyle}
+              showNext={showNext}
+              nextLabelStyle={props.nextLabelStyle}
+            />
+          )}
         </>
       )}
     </Animated.View>

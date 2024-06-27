@@ -171,6 +171,15 @@ const OnboardingScreen = () => {
 export default OnboardingScreen;
 ```
 
+## Expo Snack Examples
+
+Using the custom footer component:
+
+| ![](example/assets/IMG_2187.PNG) | ![](example/assets/IMG_2188.PNG) | ![](example/assets/IMG_2189.PNG) |
+| --------------------- | --------------------- | ------------------ |
+
+[Expo Snack](https://snack.expo.dev/@lekgwaraj/react-native-app-onboard-custom-pagination?platform=ios)
+
 ## Acknowledgements
 
 This component library draws inspiration from the [`react-native-onboarding-swiper`](https://www.npmjs.com/package/react-native-onboarding-swiper) package.

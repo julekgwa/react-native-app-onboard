@@ -40,8 +40,7 @@ export const CustomPages = ({
       )}
       {showPagination && props.paginationPosition === 'top' && (
         <>
-          {showPagination &&
-            props.customFooter &&
+          {props.customFooter &&
             props.customFooter({ nextPage: props.nextPage })}
           {!props.customFooter && (
             <Pagination
@@ -108,8 +107,7 @@ export const CustomPages = ({
 
       {showPagination && props.paginationPosition !== 'top' && (
         <>
-          {showPagination &&
-            props.customFooter &&
+          {props.customFooter &&
             props.customFooter({ nextPage: props.nextPage })}
           {!props.customFooter && (
             <Pagination

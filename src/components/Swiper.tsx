@@ -60,6 +60,7 @@ export const Swiper: React.FC<OnboardingProps> = (props) => {
       doneButtonContainerStyle={props.doneButtonContainerStyle}
       skipLabelStyle={props.skipLabelStyle}
       skipButtonPosition={props.skipButtonPosition}
+      showPagination={props.showPagination}
       color={props.color}
       onSkip={props.onSkip}
     />

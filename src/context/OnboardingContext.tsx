@@ -55,13 +55,13 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
   };
 
   const nextPage = (animated: boolean = true) => {
-    if (flatListRef.current) {
+    if (flatListRef.current && currentPage < numberOfScreens - 1) {
       flatListRef.current.scrollToOffset({
         offset: width * (currentPage + 1),
         animated: animated,
       });
+      setCurrentPage(currentPage + 1);
     }
-    setCurrentPage(currentPage + 1);
   };
 
   const scrollTo = (index: number, animated: boolean = true) => {
