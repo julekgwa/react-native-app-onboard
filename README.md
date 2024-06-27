@@ -87,6 +87,10 @@ export default App;
 | `width`                     | `number`                          |         | Optional. Custom width for the onboarding component. |
 | `color`                     | `string`                          |         | Optional. Color of the pagination dots. |
 | `pages`                     | `Page[]`                          |         | Optional. An array of [`Page`](#page-type) objects to render as the onboarding screens. |
+| `skipButtonContainerStyle`  | `StyleProp<ViewStyle>`            |         | Optional. Custom style for the container of the "Skip" button. |
+| `nextButtonContainerStyle`  | `StyleProp<ViewStyle>`            |         | Optional. Custom style for the container of the "Next" button. |
+| `doneButtonContainerStyle`  | `StyleProp<ViewStyle>`            |         | Optional. Custom style for the container of the "Done" button. |
+| `skipButtonPosition`        | `'top-left'` \| `'top-right'`     |         | Optional. Specifies the position of the "Skip" button. Can be either 'top-left' or 'top-right'. |
 
 ## Page Type
 

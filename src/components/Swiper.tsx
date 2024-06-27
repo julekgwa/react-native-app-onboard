@@ -30,6 +30,10 @@ export const Swiper: React.FC<OnboardingProps> = (props) => {
         showDone={props.showDone}
         showNext={props.showNext}
         onDone={props.onDone}
+        skipButtonContainerStyle={props.skipButtonContainerStyle}
+        nextButtonContainerStyle={props.nextButtonContainerStyle}
+        doneButtonContainerStyle={props.doneButtonContainerStyle}
+        skipButtonPosition={props.skipButtonPosition}
       >
         {props.children}
       </CustomPages>
@@ -51,6 +55,11 @@ export const Swiper: React.FC<OnboardingProps> = (props) => {
       pages={props.pages || []}
       width={props.width}
       showNext={props.showNext}
+      skipButtonContainerStyle={props.skipButtonContainerStyle}
+      nextButtonContainerStyle={props.nextButtonContainerStyle}
+      doneButtonContainerStyle={props.doneButtonContainerStyle}
+      skipLabelStyle={props.skipLabelStyle}
+      skipButtonPosition={props.skipButtonPosition}
       color={props.color}
       onSkip={props.onSkip}
     />

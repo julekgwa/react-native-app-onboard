@@ -36,6 +36,28 @@ export const Button = (props: ButtonProps) => {
   );
 };
 
+export const SkipButton = (
+  props: ButtonProps & {
+    position?: 'top-left' | 'top-right';
+  }
+) => {
+  const buttonStyle = {
+    top: 20,
+    left: props.position === 'top-left' ? 30 : undefined,
+    right: props.position === 'top-right' ? 30 : undefined,
+  };
+
+  return (
+    <Button
+      label={props.label || 'Skip'}
+      onPress={props.onPress}
+      buttonStyle={[styles.skipButton, buttonStyle, props.buttonStyle]}
+      buttonTextStyle={props.buttonTextStyle}
+      color={props.color}
+    />
+  );
+};
+
 const styles = StyleSheet.create({
   pagination: {
     flexDirection: 'row',
@@ -70,5 +92,9 @@ const styles = StyleSheet.create({
   leftButton: {
     alignItems: 'flex-start',
     paddingLeft: 30,
+  },
+  skipButton: {
+    position: 'absolute',
+    zIndex: 10,
   },
 });

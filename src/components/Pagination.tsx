@@ -27,7 +27,11 @@ type FooterProps = {
   buttonLeftContainerStyle?: StyleProp<ViewStyle>;
   dotsContainerStyle?: StyleProp<ViewStyle>;
   doneLabelStyle?: StyleProp<TextStyle>;
+  hasSkipPosition?: boolean;
   skipLabelStyle?: StyleProp<TextStyle>;
+  skipButtonContainerStyle?: StyleProp<ViewStyle>;
+  nextButtonContainerStyle?: StyleProp<ViewStyle>;
+  doneButtonContainerStyle?: StyleProp<ViewStyle>;
   nextLabelStyle?: StyleProp<TextStyle>;
   paginationPosition?: 'top' | 'bottom';
   onDone?: () => void;
@@ -56,10 +60,11 @@ export function Pagination(props: FooterProps) {
           props.buttonLeftContainerStyle,
         ]}
       >
-        {props.showSkip && (
+        {props.showSkip && !props.hasSkipPosition && (
           <Button
             onPress={props.onSkip}
             buttonTextStyle={props.skipLabelStyle}
+            buttonStyle={props.skipButtonContainerStyle}
             label={props.skipLabel || 'Skip'}
           />
         )}
@@ -99,6 +104,7 @@ export function Pagination(props: FooterProps) {
             onPress={props.onNext}
             label={props.nextLabel || 'Next'}
             buttonTextStyle={props.nextLabelStyle}
+            buttonStyle={props.nextButtonContainerStyle}
           />
         )}
         {isDone && props.showDone && (
@@ -106,6 +112,7 @@ export function Pagination(props: FooterProps) {
             onPress={props.onDone}
             label={props.doneLabel || 'Done'}
             buttonTextStyle={props.doneLabelStyle}
+            buttonStyle={props.doneButtonContainerStyle}
           />
         )}
       </View>

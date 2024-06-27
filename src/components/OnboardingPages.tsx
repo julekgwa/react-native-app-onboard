@@ -4,6 +4,7 @@ import { Animated, StyleSheet, Dimensions, FlatList } from 'react-native';
 import { Pagination } from './Pagination';
 import { OnboardingPage, type Page } from './Page';
 import type { OnboardingProps } from '../types';
+import { SkipButton } from './button';
 
 const { width } = Dimensions.get('window');
 
@@ -57,6 +58,14 @@ export const OnboardingPages = ({
         },
       ]}
     >
+      {props.skipButtonPosition && props.showSkip && (
+        <SkipButton
+          buttonTextStyle={props.skipLabelStyle}
+          buttonStyle={props.skipButtonContainerStyle}
+          position={props.skipButtonPosition}
+          onPress={props.onSkip}
+        />
+      )}
       {props.paginationPosition === 'top' && (
         <>
           {showPagination &&
@@ -77,6 +86,7 @@ export const OnboardingPages = ({
               numberOfScreens={props.pages.length}
               skipLabel={props.skipLabel}
               nextLabel={props.nextLabel}
+              hasSkipPosition={!!props.skipButtonPosition}
               doneLabel={props.doneLabel}
               paginationContainerStyle={props.paginationContainerStyle}
               buttonRightContainerStyle={props.buttonRightContainerStyle}
@@ -85,6 +95,9 @@ export const OnboardingPages = ({
               doneLabelStyle={props.doneLabelStyle}
               skipLabelStyle={props.skipLabelStyle}
               nextLabelStyle={props.nextLabelStyle}
+              skipButtonContainerStyle={props.skipButtonContainerStyle}
+              nextButtonContainerStyle={props.nextButtonContainerStyle}
+              doneButtonContainerStyle={props.doneButtonContainerStyle}
             />
           )}
         </>
@@ -121,6 +134,7 @@ export const OnboardingPages = ({
             onNext={props.nextPage}
             onSkip={props.onSkip}
             color={color}
+            hasSkipPosition={!!props.skipButtonPosition}
             onDone={props.onDone}
             showDone={props.showDone}
             backgroundColor={footerBackgroundColor}
@@ -136,6 +150,9 @@ export const OnboardingPages = ({
             dotsContainerStyle={props.dotsContainerStyle}
             doneLabelStyle={props.doneLabelStyle}
             skipLabelStyle={props.skipLabelStyle}
+            skipButtonContainerStyle={props.skipButtonContainerStyle}
+            nextButtonContainerStyle={props.nextButtonContainerStyle}
+            doneButtonContainerStyle={props.doneButtonContainerStyle}
             showNext={showNext}
             nextLabelStyle={props.nextLabelStyle}
           />

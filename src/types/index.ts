@@ -20,6 +20,10 @@ export type OnboardingProps = {
   dotsContainerStyle?: StyleProp<ViewStyle>;
   doneLabelStyle?: StyleProp<TextStyle>;
   skipLabelStyle?: StyleProp<TextStyle>;
+  skipButtonContainerStyle?: StyleProp<ViewStyle>;
+  nextButtonContainerStyle?: StyleProp<ViewStyle>;
+  doneButtonContainerStyle?: StyleProp<ViewStyle>;
+  skipButtonPosition?: 'top-left' | 'top-right';
   nextLabelStyle?: StyleProp<TextStyle>;
   containerStyle?: StyleProp<ViewStyle>;
   imageContainerStyle?: StyleProp<ViewStyle>;

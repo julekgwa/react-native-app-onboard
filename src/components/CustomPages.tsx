@@ -2,6 +2,7 @@ import { View, Dimensions, Animated, StyleSheet, FlatList } from 'react-native';
 import React from 'react';
 import { Pagination } from './Pagination';
 import type { OnboardingProps } from '../types';
+import { SkipButton } from './button';
 
 const { width } = Dimensions.get('window');
 
@@ -29,6 +30,14 @@ export const CustomPages = ({
 }: CustomPagesProps) => {
   return (
     <View style={[styles.container]}>
+      {props.skipButtonPosition && props.showSkip && (
+        <SkipButton
+          buttonTextStyle={props.skipLabelStyle}
+          buttonStyle={props.skipButtonContainerStyle}
+          position={props.skipButtonPosition}
+          onPress={props.onSkip}
+        />
+      )}
       {showPagination && props.paginationPosition === 'top' && (
         <>
           {showPagination &&
@@ -50,11 +59,15 @@ export const CustomPages = ({
               showNext={showNext}
               nextLabel={props.nextLabel}
               doneLabel={props.doneLabel}
+              hasSkipPosition={!!props.skipButtonPosition}
               paginationContainerStyle={props.paginationContainerStyle}
               buttonRightContainerStyle={props.buttonRightContainerStyle}
               buttonLeftContainerStyle={props.buttonLeftContainerStyle}
               dotsContainerStyle={props.dotsContainerStyle}
               doneLabelStyle={props.doneLabelStyle}
+              skipButtonContainerStyle={props.skipButtonContainerStyle}
+              nextButtonContainerStyle={props.nextButtonContainerStyle}
+              doneButtonContainerStyle={props.doneButtonContainerStyle}
               skipLabelStyle={props.skipLabelStyle}
               nextLabelStyle={props.nextLabelStyle}
             />
@@ -119,7 +132,11 @@ export const CustomPages = ({
               buttonLeftContainerStyle={props.buttonLeftContainerStyle}
               dotsContainerStyle={props.dotsContainerStyle}
               doneLabelStyle={props.doneLabelStyle}
+              skipButtonContainerStyle={props.skipButtonContainerStyle}
+              nextButtonContainerStyle={props.nextButtonContainerStyle}
+              doneButtonContainerStyle={props.doneButtonContainerStyle}
               skipLabelStyle={props.skipLabelStyle}
+              hasSkipPosition={!!props.skipButtonPosition}
               nextLabelStyle={props.nextLabelStyle}
             />
           )}
