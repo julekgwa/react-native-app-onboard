@@ -63,6 +63,7 @@ export const Swiper: React.FC<OnboardingProps> = (props) => {
       showPagination={props.showPagination}
       color={props.color}
       onSkip={props.onSkip}
+      swap={props.swap}
     />
   );
 };

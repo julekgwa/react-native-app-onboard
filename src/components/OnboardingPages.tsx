@@ -113,6 +113,7 @@ export const OnboardingPages = ({
           <OnboardingPage
             color={color}
             width={props.width || width}
+            swap={props.swap}
             key={index}
             {...item}
           />

@@ -21,6 +21,7 @@ export type Page = {
   titleContainerStyle?: StyleProp<ViewStyle>;
   titleStyle?: StyleProp<TextStyle>;
   subtitleStyle?: StyleProp<TextStyle>;
+  swap?: boolean;
 };
 
 const { width, height } = Dimensions.get('window');
@@ -29,7 +30,12 @@ const potrait = height > width;
 export function OnboardingPage(props: Page) {
   return (
     <View
-      style={[styles.container, { width: props.width }, props.containerStyle]}
+      style={[
+        styles.container,
+        { width: props.width },
+        props.containerStyle,
+        props.swap && styles.swapStyle,
+      ]}
     >
       <View style={[styles.imageContainer, props.imageContainerStyle]}>
         {props.image}
@@ -67,6 +73,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'column',
   },
   title: {
     fontSize: 24,
@@ -86,5 +93,8 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     marginHorizontal: 30,
+  },
+  swapStyle: {
+    flexDirection: 'column-reverse',
   },
 });

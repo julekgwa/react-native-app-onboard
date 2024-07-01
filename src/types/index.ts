@@ -36,6 +36,7 @@ export type OnboardingProps = {
   width?: number;
   color?: string;
   pages?: Page[];
+  swap?: boolean;
 } & (
   | {
       children?: React.ReactNode[];

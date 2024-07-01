@@ -91,6 +91,7 @@ export default App;
 | `nextButtonContainerStyle`  | `StyleProp<ViewStyle>`            |         | Optional. Custom style for the container of the "Next" button. |
 | `doneButtonContainerStyle`  | `StyleProp<ViewStyle>`            |         | Optional. Custom style for the container of the "Done" button. |
 | `skipButtonPosition`        | `'top-left'` \| `'top-right'`     |         | Optional. Specifies the position of the "Skip" button. Can be either 'top-left' or 'top-right'. |
+| `swap`            | `boolean`                 | false       | Optional. If true, swaps the positions of the title/subtitle and image.     |
 
 ## Page Type
 
@@ -173,12 +174,21 @@ export default OnboardingScreen;
 
 ## Expo Snack Examples
 
-Using the custom footer component:
+#### Using the custom footer component:
 
 | ![](example/assets/IMG_2187.PNG) | ![](example/assets/IMG_2188.PNG) | ![](example/assets/IMG_2189.PNG) |
 | --------------------- | --------------------- | ------------------ |
 
 [Expo Snack](https://snack.expo.dev/@lekgwaraj/react-native-app-onboard-custom-pagination?platform=ios)
+
+#### Using the custom page,
+
+you can provide a custom component for each page by passing the components as children to the `Onboarding` component:
+
+| ![](example/assets/IMG_2192.PNG) | ![](example/assets/IMG_2193.PNG) | ![](example/assets/IMG_2194.PNG) |
+| --------------------- | --------------------- | ------------------ |
+
+[Expo Snack](https://snack.expo.dev/@lekgwaraj/react-native-app-onboard-custom?platform=ios)
 
 ## Acknowledgements
 
