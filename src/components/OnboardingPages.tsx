@@ -63,6 +63,7 @@ export const OnboardingPages = ({
           buttonTextStyle={props.skipLabelStyle}
           buttonStyle={props.skipButtonContainerStyle}
           position={props.skipButtonPosition}
+          label={props.skipLabel}
           onPress={props.onSkip}
         />
       )}

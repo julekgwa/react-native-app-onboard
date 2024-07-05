@@ -17,6 +17,8 @@ export function Basic(props: ScreenProps) {
         onDone={props.onDone}
         skipButtonPosition="top-right"
         paginationPosition="bottom"
+        nextLabel="Volgende"
+        skipLabel="Overslaan"
         pages={[
           {
             backgroundColor: '#140E17',

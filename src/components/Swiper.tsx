@@ -34,6 +34,29 @@ export const Swiper: React.FC<OnboardingProps> = (props) => {
         nextButtonContainerStyle={props.nextButtonContainerStyle}
         doneButtonContainerStyle={props.doneButtonContainerStyle}
         skipButtonPosition={props.skipButtonPosition}
+        paginationContainerStyle={props.paginationContainerStyle}
+        paginationPosition={props.paginationPosition}
+        nextLabel={props.nextLabel}
+        skipLabel={props.skipLabel}
+        doneLabel={props.doneLabel}
+        showSkip={props.showSkip}
+        onSkip={props.onSkip}
+        scrollAnimationDuration={props.scrollAnimationDuration}
+        buttonLeftContainerStyle={props.buttonLeftContainerStyle}
+        buttonRightContainerStyle={props.buttonRightContainerStyle}
+        dotsContainerStyle={props.dotsContainerStyle}
+        doneLabelStyle={props.doneLabelStyle}
+        skipLabelStyle={props.skipLabelStyle}
+        nextLabelStyle={props.nextLabelStyle}
+        width={props.width}
+        color={props.color}
+        useNativeDriver={props.useNativeDriver}
+        imageContainerStyle={props.imageContainerStyle}
+        containerStyle={props.containerStyle}
+        titleContainerStyle={props.titleContainerStyle}
+        titleStyle={props.titleStyle}
+        subtitleStyle={props.subtitleStyle}
+        swap={props.swap}
       >
         {props.children}
       </CustomPages>
@@ -64,6 +87,22 @@ export const Swiper: React.FC<OnboardingProps> = (props) => {
       color={props.color}
       onSkip={props.onSkip}
       swap={props.swap}
+      scrollEnabled={scrollEnabled}
+      nextLabel={props.nextLabel}
+      skipLabel={props.skipLabel}
+      doneLabel={props.doneLabel}
+      scrollAnimationDuration={props.scrollAnimationDuration}
+      buttonLeftContainerStyle={props.buttonLeftContainerStyle}
+      buttonRightContainerStyle={props.buttonRightContainerStyle}
+      dotsContainerStyle={props.dotsContainerStyle}
+      doneLabelStyle={props.doneLabelStyle}
+      nextLabelStyle={props.nextLabelStyle}
+      useNativeDriver={props.useNativeDriver}
+      imageContainerStyle={props.imageContainerStyle}
+      containerStyle={props.containerStyle}
+      titleContainerStyle={props.titleContainerStyle}
+      titleStyle={props.titleStyle}
+      subtitleStyle={props.subtitleStyle}
     />
   );
 };

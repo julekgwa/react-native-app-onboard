@@ -69,6 +69,7 @@ export const CustomPages = ({
               doneButtonContainerStyle={props.doneButtonContainerStyle}
               skipLabelStyle={props.skipLabelStyle}
               nextLabelStyle={props.nextLabelStyle}
+              paginationPosition={props.paginationPosition}
             />
           )}
         </>
@@ -135,6 +136,7 @@ export const CustomPages = ({
               doneButtonContainerStyle={props.doneButtonContainerStyle}
               skipLabelStyle={props.skipLabelStyle}
               hasSkipPosition={!!props.skipButtonPosition}
+              paginationPosition={props.paginationPosition}
               nextLabelStyle={props.nextLabelStyle}
             />
           )}
