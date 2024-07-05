@@ -103,6 +103,7 @@ export const Swiper: React.FC<OnboardingProps> = (props) => {
       titleContainerStyle={props.titleContainerStyle}
       titleStyle={props.titleStyle}
       subtitleStyle={props.subtitleStyle}
+      paginationContainerStyle={props.paginationContainerStyle}
     />
   );
 };
