@@ -36,6 +36,7 @@ export const CustomPages = ({
           buttonStyle={props.skipButtonContainerStyle}
           position={props.skipButtonPosition}
           onPress={props.onSkip}
+          label={props.skipLabel}
         />
       )}
       {showPagination && props.paginationPosition === 'top' && (
