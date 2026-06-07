@@ -6,8 +6,9 @@ import { Button } from './custom/components/Button';
 import { Basic } from './basic/Basic';
 import { Rtl } from './rtl/Rtl';
 import { Features } from './features/Features';
+import { Gradient } from './gradient/Gradient';
 
-type Screen = 'Basic' | 'Custom' | 'Rtl' | 'Features';
+type Screen = 'Basic' | 'Custom' | 'Rtl' | 'Features' | 'Gradient';
 
 type MainAppProps = {
   setExample: React.Dispatch<React.SetStateAction<Screen | undefined>>;
@@ -32,6 +33,11 @@ function MainApp(props: MainAppProps) {
         backgroundColor="#00ACA1"
         label="Show Features Demo"
       />
+      <Button
+        onPress={() => props.setExample('Gradient')}
+        backgroundColor="#C04CC0"
+        label="Show Gradient Demo"
+      />
     </View>
   );
 }
@@ -49,6 +55,8 @@ export default function App() {
         <Rtl onDone={() => setShowExample(undefined)} />
       ) : example === 'Features' ? (
         <Features onDone={() => setShowExample(undefined)} />
+      ) : example === 'Gradient' ? (
+        <Gradient onDone={() => setShowExample(undefined)} />
       ) : (
         <MainApp setExample={setShowExample} />
       )}
