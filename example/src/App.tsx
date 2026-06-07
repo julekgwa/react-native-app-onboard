@@ -5,8 +5,9 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Button } from './custom/components/Button';
 import { Basic } from './basic/Basic';
 import { Rtl } from './rtl/Rtl';
+import { Features } from './features/Features';
 
-type Screen = 'Basic' | 'Custom' | 'Rtl';
+type Screen = 'Basic' | 'Custom' | 'Rtl' | 'Features';
 
 type MainAppProps = {
   setExample: React.Dispatch<React.SetStateAction<Screen | undefined>>;
@@ -26,6 +27,11 @@ function MainApp(props: MainAppProps) {
         backgroundColor="#7B3FF2"
         label="Show RTL (Arabic)"
       />
+      <Button
+        onPress={() => props.setExample('Features')}
+        backgroundColor="#00ACA1"
+        label="Show Features Demo"
+      />
     </View>
   );
 }
@@ -41,6 +47,8 @@ export default function App() {
         <Basic onDone={() => setShowExample(undefined)} />
       ) : example === 'Rtl' ? (
         <Rtl onDone={() => setShowExample(undefined)} />
+      ) : example === 'Features' ? (
+        <Features onDone={() => setShowExample(undefined)} />
       ) : (
         <MainApp setExample={setShowExample} />
       )}
