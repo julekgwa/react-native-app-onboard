@@ -128,6 +128,7 @@ export const OnboardingPages = ({
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
+        scrollEnabled={props.scrollEnabled}
         style={props.mirror ? styles.mirror : undefined}
         keyExtractor={(_, index) => index.toString()}
         renderItem={({ item, index }) => (

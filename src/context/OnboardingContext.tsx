@@ -79,6 +79,11 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
   const currentPageRef = React.useRef(0);
   const [isAutoPlaying, setIsAutoPlaying] = React.useState(autoPlay);
 
+  // Keep autoplay in sync if the `autoPlay` prop is toggled after mount.
+  React.useEffect(() => {
+    setIsAutoPlaying(autoPlay);
+  }, [autoPlay]);
+
   // Dedicated value used to honor a custom scrollAnimationDuration. FlatList's
   // own animated scroll has a fixed, platform-controlled duration, so when a
   // duration is requested we drive the offset manually via this value.
@@ -186,6 +191,7 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({
   const contextValue: OnboardingContextType = {
     scrollEnabled: enableScroll,
     enableScroll: setEnableScroll,
+    width,
     currentPage,
     numberOfScreens,
     nextPage,

@@ -84,6 +84,20 @@ describe('react-native-app-onboard', () => {
       expect(mirrored.length).toBeGreaterThan(0);
     });
 
+    it('forwards scrollEnabled to the pages FlatList', () => {
+      let tree: any;
+      act(() => {
+        tree = create(<Onboarding pages={threePages} scrollEnabled={false} />);
+      });
+      const lists = tree.root.findAll(
+        (n: any) => n.props?.pagingEnabled === true
+      );
+      expect(lists.length).toBeGreaterThan(0);
+      expect(lists.some((n: any) => n.props.scrollEnabled === false)).toBe(
+        true
+      );
+    });
+
     it('does not mirror by default (matches device direction)', () => {
       let tree: any;
       act(() => {
