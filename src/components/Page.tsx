@@ -22,10 +22,12 @@ export type Page = {
   titleStyle?: StyleProp<TextStyle>;
   subtitleStyle?: StyleProp<TextStyle>;
   swap?: boolean;
+  /** Internal: counter-flips page content when the slider is mirrored for RTL. */
+  mirror?: boolean;
 };
 
 const { width, height } = Dimensions.get('window');
-const potrait = height > width;
+const portrait = height > width;
 
 export function OnboardingPage(props: Page) {
   return (
@@ -35,6 +37,7 @@ export function OnboardingPage(props: Page) {
         { width: props.width },
         props.containerStyle,
         props.swap && styles.swapStyle,
+        props.mirror && styles.mirror,
       ]}
     >
       <View style={[styles.imageContainer, props.imageContainerStyle]}>
@@ -87,7 +90,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     flex: 0,
-    paddingBottom: potrait ? 60 : 10,
+    paddingBottom: portrait ? 60 : 10,
     alignItems: 'center',
     width: '100%',
   },
@@ -96,5 +99,8 @@ const styles = StyleSheet.create({
   },
   swapStyle: {
     flexDirection: 'column-reverse',
+  },
+  mirror: {
+    transform: [{ scaleX: -1 }],
   },
 });

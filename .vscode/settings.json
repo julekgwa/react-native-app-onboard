@@ -1,0 +1,7 @@
+{
+  "typescript.native-preview.tsdk": "node_modules/@typescript/native-preview",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.prettier": "explicit",
+    "source.fixAll.eslint": "explicit"
+  }
+}

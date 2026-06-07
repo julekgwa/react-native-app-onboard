@@ -26,7 +26,7 @@
     "!**/.*"
   ],
   "scripts": {
-    "example": "yarn workspace react-native-app-onboard-example",
+    "example": "yarn workspace react-native-app-onboard-example start",
     "test": "jest",
     "typecheck": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
@@ -66,11 +66,14 @@
   "devDependencies": {
     "@commitlint/config-conventional": "^17.0.2",
     "@evilmartians/lefthook": "^1.5.0",
+    "@react-native/babel-preset": "0.74.84",
     "@react-native/eslint-config": "^0.73.1",
     "@release-it/conventional-changelog": "^5.0.0",
     "@types/jest": "^29.5.5",
     "@types/react": "^18.2.44",
+    "@types/react-test-renderer": "^19.1.0",
     "@types/tinycolor2": "^1.4.6",
+    "@typescript/native-preview": "^7.0.0-dev.20260606.1",
     "commitlint": "^17.0.2",
     "del-cli": "^5.1.0",
     "eslint": "^8.51.0",
@@ -81,6 +84,7 @@
     "react": "18.2.0",
     "react-native": "0.74.2",
     "react-native-builder-bob": "^0.20.0",
+    "react-test-renderer": "18.2.0",
     "release-it": "^15.0.0",
     "typescript": "^5.2.2"
   },
@@ -94,6 +98,9 @@
   "packageManager": "yarn@3.6.1",
   "jest": {
     "preset": "react-native",
+    "moduleNameMapper": {
+      "^react-native-app-onboard$": "<rootDir>/src/index"
+    },
     "modulePathIgnorePatterns": [
       "<rootDir>/example/node_modules",
       "<rootDir>/lib/"
@@ -167,5 +174,8 @@
   },
   "dependencies": {
     "tinycolor2": "^1.6.0"
-  }
+  },
+  "workspaces": [
+    "example"
+  ]
 }

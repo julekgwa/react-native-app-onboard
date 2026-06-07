@@ -57,5 +57,5 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: Build example for Web
-        run: |
-          yarn example expo export:web
+        working-directory: example
+        run: yarn expo export --platform web

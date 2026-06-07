@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { Custom } from './custom/Custom';
 import { View, StyleSheet } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Button } from './custom/components/Button';
 import { Basic } from './basic/Basic';
+import { Rtl } from './rtl/Rtl';
 
-type Screen = 'Basic' | 'Custom';
+type Screen = 'Basic' | 'Custom' | 'Rtl';
 
 type MainAppProps = {
   setExample: React.Dispatch<React.SetStateAction<Screen | undefined>>;
@@ -19,6 +21,11 @@ function MainApp(props: MainAppProps) {
         backgroundColor="#00ACA1"
         label="Show Custom"
       />
+      <Button
+        onPress={() => props.setExample('Rtl')}
+        backgroundColor="#7B3FF2"
+        label="Show RTL (Arabic)"
+      />
     </View>
   );
 }
@@ -26,12 +33,18 @@ function MainApp(props: MainAppProps) {
 export default function App() {
   const [example, setShowExample] = React.useState<Screen>();
 
-  return example === 'Custom' ? (
-    <Custom onDone={() => setShowExample(undefined)} />
-  ) : example === 'Basic' ? (
-    <Basic onDone={() => setShowExample(undefined)} />
-  ) : (
-    <MainApp setExample={setShowExample} />
+  return (
+    <SafeAreaProvider>
+      {example === 'Custom' ? (
+        <Custom onDone={() => setShowExample(undefined)} />
+      ) : example === 'Basic' ? (
+        <Basic onDone={() => setShowExample(undefined)} />
+      ) : example === 'Rtl' ? (
+        <Rtl onDone={() => setShowExample(undefined)} />
+      ) : (
+        <MainApp setExample={setShowExample} />
+      )}
+    </SafeAreaProvider>
   );
 }
 

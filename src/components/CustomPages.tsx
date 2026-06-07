@@ -1,4 +1,12 @@
-import { View, Dimensions, Animated, StyleSheet, FlatList } from 'react-native';
+import {
+  View,
+  Dimensions,
+  Animated,
+  StyleSheet,
+  FlatList,
+  type NativeSyntheticEvent,
+  type NativeScrollEvent,
+} from 'react-native';
 import React from 'react';
 import { Pagination } from './Pagination';
 import type { OnboardingProps } from '../types';
@@ -10,10 +18,16 @@ type CustomPagesProps = OnboardingProps & {
   children?: React.ReactNode[];
   currentPage: number;
   setPage: (newPageIndex: number) => void;
-  flatListRef: React.RefObject<FlatList>;
+  setFlatListRef: (node: FlatList | null) => void;
   scrollX: Animated.Value;
+  dotsAnimatedValue: Animated.Value;
+  onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  onScrollBeginDrag: () => void;
   nextPage: () => void;
   numberOfScreens: number;
+  // Accepted for prop-spread compatibility. Forced-`rtl` mirroring applies to
+  // the declarative `pages` API; custom children follow the device direction.
+  mirror?: boolean;
 };
 
 export type SliderProps = {
@@ -28,6 +42,45 @@ export const CustomPages = ({
   showNext = true,
   ...props
 }: CustomPagesProps) => {
+  const pageWidth = props.width || width;
+
+  const paginationProps = {
+    color: '#fff',
+    backgroundColor: '#333',
+    width: pageWidth,
+    onNext: props.nextPage,
+    onSkip: props.onSkip,
+    onDone: props.onDone,
+    showDone: props.showDone,
+    showPrevious: props.showPrevious,
+    animatedValue: props.dotsAnimatedValue,
+    showSkip: props.showSkip,
+    numberOfScreens: props.numberOfScreens,
+    skipLabel: props.skipLabel,
+    showNext,
+    nextLabel: props.nextLabel,
+    previousLabel: props.previousLabel,
+    doneLabel: props.doneLabel,
+    hasSkipPosition: !!props.skipButtonPosition,
+    paginationStyle: props.paginationStyle,
+    progressBarStyle: props.progressBarStyle,
+    progressBarFillStyle: props.progressBarFillStyle,
+    dotsAreTappable: props.dotsAreTappable,
+    paginationContainerStyle: props.paginationContainerStyle,
+    buttonRightContainerStyle: props.buttonRightContainerStyle,
+    buttonLeftContainerStyle: props.buttonLeftContainerStyle,
+    dotsContainerStyle: props.dotsContainerStyle,
+    doneLabelStyle: props.doneLabelStyle,
+    skipButtonContainerStyle: props.skipButtonContainerStyle,
+    nextButtonContainerStyle: props.nextButtonContainerStyle,
+    doneButtonContainerStyle: props.doneButtonContainerStyle,
+    previousButtonContainerStyle: props.previousButtonContainerStyle,
+    skipLabelStyle: props.skipLabelStyle,
+    previousLabelStyle: props.previousLabelStyle,
+    nextLabelStyle: props.nextLabelStyle,
+    paginationPosition: props.paginationPosition,
+  };
+
   return (
     <View style={[styles.container]}>
       {props.skipButtonPosition && props.showSkip && (
@@ -43,53 +96,22 @@ export const CustomPages = ({
         <>
           {props.customFooter &&
             props.customFooter({ nextPage: props.nextPage })}
-          {!props.customFooter && (
-            <Pagination
-              color={'#fff'}
-              backgroundColor={'#333'}
-              width={width}
-              onNext={props.nextPage}
-              onSkip={props.onSkip}
-              onDone={props.onDone}
-              showDone={props.showDone}
-              animatedValue={props.scrollX}
-              showSkip={props.showSkip}
-              numberOfScreens={props.numberOfScreens}
-              skipLabel={props.skipLabel}
-              showNext={showNext}
-              nextLabel={props.nextLabel}
-              doneLabel={props.doneLabel}
-              hasSkipPosition={!!props.skipButtonPosition}
-              paginationContainerStyle={props.paginationContainerStyle}
-              buttonRightContainerStyle={props.buttonRightContainerStyle}
-              buttonLeftContainerStyle={props.buttonLeftContainerStyle}
-              dotsContainerStyle={props.dotsContainerStyle}
-              doneLabelStyle={props.doneLabelStyle}
-              skipButtonContainerStyle={props.skipButtonContainerStyle}
-              nextButtonContainerStyle={props.nextButtonContainerStyle}
-              doneButtonContainerStyle={props.doneButtonContainerStyle}
-              skipLabelStyle={props.skipLabelStyle}
-              nextLabelStyle={props.nextLabelStyle}
-              paginationPosition={props.paginationPosition}
-            />
-          )}
+          {!props.customFooter && <Pagination {...paginationProps} />}
         </>
       )}
       <Animated.FlatList
-        ref={props.flatListRef}
+        ref={(node) => props.setFlatListRef(node as FlatList | null)}
         data={React.Children.toArray(props.children)}
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         scrollEnabled={props.scrollEnabled}
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { x: props.scrollX } } }],
-          { useNativeDriver: false }
-        )}
-        scrollEventThrottle={1}
+        onScroll={props.onScroll}
+        onScrollBeginDrag={props.onScrollBeginDrag}
+        scrollEventThrottle={16}
         onMomentumScrollEnd={(event) => {
           const pageIndex = Math.round(
-            event.nativeEvent.contentOffset.x / width
+            event.nativeEvent.contentOffset.x / pageWidth
           );
           props.setPage(pageIndex || 0);
         }}
@@ -111,36 +133,7 @@ export const CustomPages = ({
         <>
           {props.customFooter &&
             props.customFooter({ nextPage: props.nextPage })}
-          {!props.customFooter && (
-            <Pagination
-              color={'#fff'}
-              backgroundColor={'#333'}
-              width={width}
-              onNext={props.nextPage}
-              onSkip={props.onSkip}
-              onDone={props.onDone}
-              showDone={props.showDone}
-              animatedValue={props.scrollX}
-              showSkip={props.showSkip}
-              numberOfScreens={props.numberOfScreens}
-              skipLabel={props.skipLabel}
-              nextLabel={props.nextLabel}
-              showNext={showNext}
-              doneLabel={props.doneLabel}
-              paginationContainerStyle={props.paginationContainerStyle}
-              buttonRightContainerStyle={props.buttonRightContainerStyle}
-              buttonLeftContainerStyle={props.buttonLeftContainerStyle}
-              dotsContainerStyle={props.dotsContainerStyle}
-              doneLabelStyle={props.doneLabelStyle}
-              skipButtonContainerStyle={props.skipButtonContainerStyle}
-              nextButtonContainerStyle={props.nextButtonContainerStyle}
-              doneButtonContainerStyle={props.doneButtonContainerStyle}
-              skipLabelStyle={props.skipLabelStyle}
-              hasSkipPosition={!!props.skipButtonPosition}
-              paginationPosition={props.paginationPosition}
-              nextLabelStyle={props.nextLabelStyle}
-            />
-          )}
+          {!props.customFooter && <Pagination {...paginationProps} />}
         </>
       )}
     </View>
