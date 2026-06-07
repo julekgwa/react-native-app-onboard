@@ -5669,13 +5669,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/tinycolor2@npm:^1.4.6":
-  version: 1.4.6
-  resolution: "@types/tinycolor2@npm:1.4.6"
-  checksum: 50179851b32dcf78e0b4b691350a61043d8a00c3a8176d8155a257b34bb937136ff5d7950c814dca3c832673c7b6dc835f89dd154e85ccec3a4d4eac3993ed84
-  languageName: node
-  linkType: hard
-
 "@types/ws@npm:^8.5.5":
   version: 8.18.1
   resolution: "@types/ws@npm:8.18.1"
@@ -17010,7 +17003,6 @@ __metadata:
     "@types/jest": ^29.5.5
     "@types/react": ^18.2.44
     "@types/react-test-renderer": ^18.0.0
-    "@types/tinycolor2": ^1.4.6
     "@typescript/native-preview": ^7.0.0-dev.20260606.1
     commitlint: ^17.0.2
     del-cli: ^5.1.0
@@ -17024,7 +17016,6 @@ __metadata:
     react-native-builder-bob: ^0.20.0
     react-test-renderer: 18.2.0
     release-it: ^15.0.0
-    tinycolor2: ^1.6.0
     typescript: ^5.2.2
   peerDependencies:
     react: "*"
@@ -19498,13 +19489,6 @@ __metadata:
   version: 1.1.0
   resolution: "thunky@npm:1.1.0"
   checksum: 993096c472b6b8f30e29dc777a8d17720e4cab448375041f20c0cb802a09a7fb2217f2a3e8cdc11851faa71c957e2db309357367fc9d7af3cb7a4d00f4b66034
-  languageName: node
-  linkType: hard
-
-"tinycolor2@npm:^1.6.0":
-  version: 1.6.0
-  resolution: "tinycolor2@npm:1.6.0"
-  checksum: 6df4d07fceeedc0a878d7bac47e2cd47c1ceeb1078340a9eb8a295bc0651e17c750f73d47b3028d829f30b85c15e0572c0fd4142083e4c21a30a597e47f47230
   languageName: node
   linkType: hard
 

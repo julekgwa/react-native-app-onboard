@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import tinycolor from 'tinycolor2';
+import { getBrightness, lighten, darken } from '../utils/color';
 import {
   Animated,
   StyleSheet,
@@ -36,14 +36,14 @@ export const OnboardingPages = ({
   const pageWidth = props.width || width;
   const currentPage_ = props.pages[props.currentPage];
   const currentBackgroundColor = currentPage_?.backgroundColor ?? 'white';
-  const isLight = tinycolor(currentBackgroundColor).getBrightness() > 180;
+  const isLight = getBrightness(currentBackgroundColor) > 180;
   const footerBackgroundColor = isLight
-    ? tinycolor(currentBackgroundColor).darken(30).toString()
-    : tinycolor(currentBackgroundColor).lighten(30).toString();
+    ? darken(currentBackgroundColor, 30)
+    : lighten(currentBackgroundColor, 30);
   const color =
-    tinycolor(footerBackgroundColor).getBrightness() > 180
-      ? tinycolor(footerBackgroundColor).darken(60).toString()
-      : tinycolor(footerBackgroundColor).lighten(60).toString();
+    getBrightness(footerBackgroundColor) > 180
+      ? darken(footerBackgroundColor, 60)
+      : lighten(footerBackgroundColor, 60);
 
   const interpolatedBackgroundColor = useMemo(() => {
     const pages = props.pages;

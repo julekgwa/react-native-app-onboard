@@ -8,7 +8,7 @@ import {
   type TextStyle,
 } from 'react-native';
 import React from 'react';
-import tinycolor from 'tinycolor2';
+import { setAlpha } from '../utils/color';
 import { useOnboarding } from '../hooks/useOnboarding';
 import { Button } from './button';
 
@@ -101,11 +101,7 @@ export function Pagination(props: FooterProps) {
             styles.progressTrack,
             // Derive a faint track from the (background-aware) fill color so it
             // stays visible on both light and dark pages.
-            {
-              backgroundColor: tinycolor(props.color)
-                .setAlpha(0.25)
-                .toRgbString(),
-            },
+            { backgroundColor: setAlpha(props.color, 0.25) },
             // Mirror the fill direction so it grows from the trailing edge.
             props.mirror && styles.mirror,
             props.progressBarStyle,
