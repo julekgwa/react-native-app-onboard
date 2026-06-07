@@ -1,109 +1,87 @@
 import React from 'react';
 import { OnboardingPages } from './OnboardingPages';
 import { CustomPages } from './CustomPages';
-import { Animated } from 'react-native';
+import {
+  Animated,
+  I18nManager,
+  type NativeSyntheticEvent,
+  type NativeScrollEvent,
+} from 'react-native';
 import { useOnboarding } from '../hooks/useOnboarding';
 import type { OnboardingProps } from '../types';
 
 export const Swiper: React.FC<OnboardingProps> = (props) => {
-  const scrollX = React.useRef(new Animated.Value(0)).current;
+  // `scrollX` is always JS-driven because the background-color interpolation
+  // cannot run on the native thread. When `useNativeDriver` is enabled we also
+  // keep `nativeScrollX`, driven natively, for transform/opacity animations
+  // (the pagination dots), and mirror its offset onto `scrollX` via a JS
+  // listener so the color interpolation keeps working.
+  const scrollX = React.useMemo(() => new Animated.Value(0), []);
+  const nativeScrollX = React.useMemo(() => new Animated.Value(0), []);
+  const nativeDriverEnabled = props.useNativeDriver ?? false;
+  const dotsAnimatedValue = nativeDriverEnabled ? nativeScrollX : scrollX;
+
+  // Direction handling: default to the device direction. We only mirror
+  // manually (via scaleX) when the requested direction differs from the
+  // device's — when they match, React Native already lays the row out
+  // correctly and an extra flip would double-invert it.
+  const rtl = props.rtl ?? I18nManager.isRTL;
+  const mirror = rtl !== I18nManager.isRTL;
+
   const {
-    flatListRef,
+    setFlatListRef,
     setCurrentPage,
     currentPage,
     numberOfScreens,
     nextPage,
     scrollEnabled,
+    pauseAutoPlay,
   } = useOnboarding();
+
+  const onScroll = React.useMemo(
+    () =>
+      nativeDriverEnabled
+        ? Animated.event(
+            [{ nativeEvent: { contentOffset: { x: nativeScrollX } } }],
+            {
+              useNativeDriver: true,
+              listener: (event: NativeSyntheticEvent<NativeScrollEvent>) =>
+                scrollX.setValue(event.nativeEvent.contentOffset.x),
+            }
+          )
+        : Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], {
+            useNativeDriver: false,
+          }),
+    [nativeDriverEnabled, nativeScrollX, scrollX]
+  );
+
+  // Stop autoplay as soon as the user takes manual control of the slider.
+  const onScrollBeginDrag = React.useCallback(
+    () => pauseAutoPlay(),
+    [pauseAutoPlay]
+  );
+
+  const shared = {
+    setFlatListRef,
+    scrollX,
+    dotsAnimatedValue,
+    onScroll,
+    onScrollBeginDrag,
+    setPage: setCurrentPage,
+    currentPage,
+    numberOfScreens,
+    nextPage,
+    scrollEnabled,
+    mirror,
+  };
+
   if (props.children) {
     return (
-      <CustomPages
-        customFooter={props.customFooter}
-        showPagination={props.showPagination}
-        flatListRef={flatListRef}
-        scrollX={scrollX}
-        setPage={setCurrentPage}
-        scrollEnabled={scrollEnabled}
-        currentPage={currentPage}
-        numberOfScreens={numberOfScreens}
-        nextPage={nextPage}
-        showDone={props.showDone}
-        showNext={props.showNext}
-        onDone={props.onDone}
-        skipButtonContainerStyle={props.skipButtonContainerStyle}
-        nextButtonContainerStyle={props.nextButtonContainerStyle}
-        doneButtonContainerStyle={props.doneButtonContainerStyle}
-        skipButtonPosition={props.skipButtonPosition}
-        paginationContainerStyle={props.paginationContainerStyle}
-        paginationPosition={props.paginationPosition}
-        nextLabel={props.nextLabel}
-        skipLabel={props.skipLabel}
-        doneLabel={props.doneLabel}
-        showSkip={props.showSkip}
-        onSkip={props.onSkip}
-        scrollAnimationDuration={props.scrollAnimationDuration}
-        buttonLeftContainerStyle={props.buttonLeftContainerStyle}
-        buttonRightContainerStyle={props.buttonRightContainerStyle}
-        dotsContainerStyle={props.dotsContainerStyle}
-        doneLabelStyle={props.doneLabelStyle}
-        skipLabelStyle={props.skipLabelStyle}
-        nextLabelStyle={props.nextLabelStyle}
-        width={props.width}
-        color={props.color}
-        useNativeDriver={props.useNativeDriver}
-        imageContainerStyle={props.imageContainerStyle}
-        containerStyle={props.containerStyle}
-        titleContainerStyle={props.titleContainerStyle}
-        titleStyle={props.titleStyle}
-        subtitleStyle={props.subtitleStyle}
-        swap={props.swap}
-      >
+      <CustomPages {...props} {...shared}>
         {props.children}
       </CustomPages>
     );
   }
 
-  return (
-    <OnboardingPages
-      showDone={props.showDone}
-      customFooter={props.customFooter}
-      flatListRef={flatListRef}
-      scrollX={scrollX}
-      setPage={setCurrentPage}
-      currentPage={currentPage}
-      paginationPosition={props.paginationPosition}
-      nextPage={nextPage}
-      showSkip={props.showSkip}
-      onDone={props.onDone}
-      pages={props.pages || []}
-      width={props.width}
-      showNext={props.showNext}
-      skipButtonContainerStyle={props.skipButtonContainerStyle}
-      nextButtonContainerStyle={props.nextButtonContainerStyle}
-      doneButtonContainerStyle={props.doneButtonContainerStyle}
-      skipLabelStyle={props.skipLabelStyle}
-      skipButtonPosition={props.skipButtonPosition}
-      showPagination={props.showPagination}
-      color={props.color}
-      onSkip={props.onSkip}
-      swap={props.swap}
-      scrollEnabled={scrollEnabled}
-      nextLabel={props.nextLabel}
-      skipLabel={props.skipLabel}
-      doneLabel={props.doneLabel}
-      scrollAnimationDuration={props.scrollAnimationDuration}
-      buttonLeftContainerStyle={props.buttonLeftContainerStyle}
-      buttonRightContainerStyle={props.buttonRightContainerStyle}
-      dotsContainerStyle={props.dotsContainerStyle}
-      doneLabelStyle={props.doneLabelStyle}
-      nextLabelStyle={props.nextLabelStyle}
-      useNativeDriver={props.useNativeDriver}
-      imageContainerStyle={props.imageContainerStyle}
-      containerStyle={props.containerStyle}
-      titleContainerStyle={props.titleContainerStyle}
-      titleStyle={props.titleStyle}
-      subtitleStyle={props.subtitleStyle}
-      paginationContainerStyle={props.paginationContainerStyle}
-    />
-  );
+  return <OnboardingPages {...props} {...shared} pages={props.pages || []} />;
 };

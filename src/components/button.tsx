@@ -18,7 +18,12 @@ type ButtonProps = {
 
 export const Button = (props: ButtonProps) => {
   return typeof props.label === 'string' ? (
-    <TouchableOpacity onPress={props.onPress} style={props.buttonStyle}>
+    <TouchableOpacity
+      onPress={props.onPress}
+      style={props.buttonStyle}
+      accessibilityRole="button"
+      accessibilityLabel={props.label}
+    >
       <Text
         style={[
           styles.text,
