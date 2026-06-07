@@ -1,5 +1,5 @@
 # react-native-app-onboard
-[![npm](https://img.shields.io/npm/v/react-native-app-onboard.svg)](https://www.npmjs.com/package/react-native-app-onboard) [![GitHub stars](https://img.shields.io/github/stars/julekgwa/react-native-app-onboard.svg?style=social&label=Stars)](https://github.com/julekgwa/react-native-app-onboard) [![gzip size](http://img.badgesize.io/https://unpkg.com/react-native-app-onboard/src/index.tsx?compression=gzip)](https://unpkg.com/react-native-app-onboard/dist/index.js) ![npm](https://img.shields.io/npm/dm/react-native-app-onboard)
+[![npm](https://img.shields.io/npm/v/react-native-app-onboard.svg)](https://www.npmjs.com/package/react-native-app-onboard) [![GitHub stars](https://img.shields.io/github/stars/julekgwa/react-native-app-onboard.svg?style=social&label=Stars)](https://github.com/julekgwa/react-native-app-onboard) [![gzip size](http://img.badgesize.io/https://unpkg.com/react-native-app-onboard/src/index.tsx?compression=gzip)](https://unpkg.com/react-native-app-onboard/dist/index.js) ![npm](https://img.shields.io/npm/dm/react-native-app-onboard) [![install size](https://packagephobia.com/badge?p=react-native-app-onboard)](https://packagephobia.com/result?p=react-native-app-onboard) [![Socket Badge](https://badge.socket.dev/npm/package/react-native-app-onboard)](https://badge.socket.dev/npm/package/react-native-app-onboard)
 
 React Native App Onboard is a customizable, easy-to-use, and efficient library for creating compelling onboarding experiences for your React Native applications. It provides smooth, fluid transitions and animations, with a focus on simplicity and usability.
 
@@ -24,7 +24,7 @@ React Native App Onboard is a customizable, easy-to-use, and efficient library f
 - Custom footer via a render prop.
 - Storage-agnostic persistence helpers.
 - Optional native-driver animations.
-- Written in TypeScript with a single runtime dependency.
+- Written in TypeScript with zero runtime dependencies.
 
 ## Installation
 
