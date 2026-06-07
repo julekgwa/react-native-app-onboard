@@ -20,6 +20,11 @@ export type Page = {
    * `backgroundColor` when omitted.
    */
   background?: React.ReactNode;
+  /**
+   * Overrides automatic light/dark detection for this page's footer/button
+   * contrast. When omitted, brightness of `backgroundColor` is used.
+   */
+  isLight?: boolean;
   color?: string;
   width?: number;
   containerStyle?: StyleProp<ViewStyle>;

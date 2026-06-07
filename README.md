@@ -90,6 +90,7 @@ export default App;
 | `onSkip`                    | `() => void`                      |         | Optional. Callback function that is called when the "Skip" button is pressed. |
 | `skipToPage`                | `number`                          |         | Optional. When set, pressing "Skip" navigates to this page index instead of firing `onSkip` (e.g. skip the intro slides but land on a sign-up slide). Works for both APIs. |
 | `onPageChange`              | `(index: number) => void`         |         | Optional. Called with the new page index on every page change (swipe, button, or autoplay). Useful for analytics. |
+| `currentPage`               | `number`                          |         | Optional. Controlled page index — when it changes, the slider navigates to that page. Pair with `onPageChange` to keep the parent in sync. |
 | `showPagination`            | `boolean`                         | `true`  | Optional. Determines whether pagination indicators are shown. |
 | `paginationStyle`           | `'dots'` \| `'progress'`          | `'dots'`| Optional. Renders the pagination as animated dots or as a progress bar. |
 | `progressBarStyle`          | `StyleProp<ViewStyle>`            |         | Optional. Custom style for the progress bar track (when `paginationStyle="progress"`). |
@@ -135,6 +136,7 @@ Each `Page` object in the `pages` prop should conform to the following structure
 | `image`                | `React.ReactNode`         | Yes      | A React Node representing the image to be displayed on the page.            |
 | `backgroundColor`      | `string`                  | Yes      | The background color for the page.                                          |
 | `background`           | `React.ReactNode`         | No       | Optional. Custom background element (e.g. a `LinearGradient`) rendered behind the content and cross-faded as the user swipes. Falls back to `backgroundColor`. |
+| `isLight`              | `boolean`                 | No       | Optional. Overrides automatic light/dark detection for the footer/button contrast on this page. When omitted, the brightness of `backgroundColor` is used. |
 | `nextLabel` / `skipLabel` / `doneLabel` | `string` \| `React.ReactNode` | No | Optional. Per-page overrides for the Next/Skip/Done button labels (fall back to the top-level labels). |
 | `canSwipeForward`      | `boolean`                 | No       | Optional. When `false`, blocks advancing past this page: swiping is disabled and the Next button is disabled (the Back button still works). Default `true`. |
 | `canSwipeBackward`     | `boolean`                 | No       | Optional. When `false`, blocks returning from this page: swiping is disabled and the Back button is disabled (the Next button still works). Default `true`. |
@@ -171,10 +173,12 @@ To manage the state and navigation of the onboarding flow more effectively, you 
 ### Features Provided by the `useOnboarding` Hook
 
 - **`currentPage`**: A state variable that tracks the current onboarding screen the user is viewing.
-- **`setCurrentPage`**: A function to update the current page state.
+- **`setCurrentPage`**: A function to update the current page **state only** — it does not scroll. To navigate, use `nextPage`, `previousPage`, or `scrollTo`.
 - **`scrollEnabled`**: A boolean state that indicates whether the user can scroll through the onboarding screens.
 - **`enableScroll`**: A function to enable or disable scrolling.
 - **`flatListRef`**: A ref object for the underlying FlatList component, allowing for programmatic control of the scroll position.
+- **`setFlatListRef`**: A callback ref to attach the underlying FlatList (used internally; prefer `flatListRef` for reads).
+- **`width`**: The resolved page width (the `width` prop, or the screen width when unset).
 - **`numberOfScreens`**: The total number of screens in the onboarding sequence.
 - **`nextPage`**: A function to navigate to the next page in the onboarding sequence.
 - **`previousPage`**: A function to navigate to the previous page in the onboarding sequence.

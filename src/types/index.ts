@@ -44,6 +44,11 @@ export type OnboardingProps = {
   titleStyle?: StyleProp<TextStyle>;
   subtitleStyle?: StyleProp<TextStyle>;
   paginationPosition?: 'top' | 'bottom';
+  /**
+   * Controlled page index. When this prop changes, the slider navigates to that
+   * page. Pair with `onPageChange` to keep the parent in sync.
+   */
+  currentPage?: number;
   paginationStyle?: 'dots' | 'progress';
   progressBarStyle?: StyleProp<ViewStyle>;
   progressBarFillStyle?: StyleProp<ViewStyle>;

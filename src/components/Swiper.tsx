@@ -39,6 +39,20 @@ export const Swiper: React.FC<OnboardingProps> = (props) => {
     pauseAutoPlay,
   } = useOnboarding();
 
+  // Controlled mode: navigate whenever the `currentPage` prop changes. We track
+  // the last applied value so this only reacts to parent-driven changes, never
+  // fighting the user's own swipes (which don't change the prop). The initial
+  // value jumps without animation; later changes animate.
+  const controlledPage = props.currentPage;
+  const appliedControlledPage = React.useRef<number | undefined>(undefined);
+  React.useEffect(() => {
+    if (controlledPage == null) return;
+    if (controlledPage === appliedControlledPage.current) return;
+    const isInitial = appliedControlledPage.current === undefined;
+    appliedControlledPage.current = controlledPage;
+    scrollTo(controlledPage, !isInitial);
+  }, [controlledPage, scrollTo]);
+
   // When `skipToPage` is set, "Skip" navigates within the flow instead of
   // exiting it (so `onSkip` is not called in that case).
   const { skipToPage, onSkip } = props;

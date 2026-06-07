@@ -315,6 +315,43 @@ describe('per-page features & skipToPage', () => {
     act(() => byLabel(tree, 'Skip')[0]?.props.onPress());
     expect(onSkip).toHaveBeenCalled();
   });
+
+  it('navigates when the controlled currentPage prop changes', () => {
+    const onPageChange = jest.fn();
+    let tree: any;
+    act(() => {
+      tree = create(
+        <Onboarding
+          pages={threePages}
+          currentPage={0}
+          onPageChange={onPageChange}
+        />
+      );
+    });
+    act(() => {
+      tree.update(
+        <Onboarding
+          pages={threePages}
+          currentPage={2}
+          onPageChange={onPageChange}
+        />
+      );
+    });
+    expect(onPageChange).toHaveBeenLastCalledWith(2);
+  });
+
+  it('renders with a per-page isLight override', () => {
+    let tree: any;
+    act(() => {
+      // A dark page forced light — should still render without crashing.
+      tree = create(
+        <Onboarding
+          pages={[{ ...threePages[1]!, isLight: true }, threePages[2]!]}
+        />
+      );
+    });
+    expect(tree.toJSON()).toBeDefined();
+  });
 });
 
 describe('persistence helpers (#8)', () => {

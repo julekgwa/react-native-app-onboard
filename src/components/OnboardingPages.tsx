@@ -38,7 +38,9 @@ export const OnboardingPages = ({
   const pageWidth = props.width || width;
   const currentPage_ = props.pages[props.currentPage];
   const currentBackgroundColor = currentPage_?.backgroundColor ?? 'white';
-  const isLight = getBrightness(currentBackgroundColor) > 180;
+  // A page can override the automatic brightness-based light/dark detection.
+  const isLight =
+    currentPage_?.isLight ?? getBrightness(currentBackgroundColor) > 180;
   const footerBackgroundColor = isLight
     ? darken(currentBackgroundColor, 30)
     : lighten(currentBackgroundColor, 30);
