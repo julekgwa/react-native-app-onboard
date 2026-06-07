@@ -34,9 +34,21 @@ export const Swiper: React.FC<OnboardingProps> = (props) => {
     currentPage,
     numberOfScreens,
     nextPage,
+    scrollTo,
     scrollEnabled,
     pauseAutoPlay,
   } = useOnboarding();
+
+  // When `skipToPage` is set, "Skip" navigates within the flow instead of
+  // exiting it (so `onSkip` is not called in that case).
+  const { skipToPage, onSkip } = props;
+  const handleSkip = React.useCallback(() => {
+    if (skipToPage != null) {
+      scrollTo(skipToPage);
+    } else {
+      onSkip?.();
+    }
+  }, [skipToPage, scrollTo, onSkip]);
 
   const onScroll = React.useMemo(
     () =>
@@ -71,8 +83,10 @@ export const Swiper: React.FC<OnboardingProps> = (props) => {
     currentPage,
     numberOfScreens,
     nextPage,
+    scrollTo,
     scrollEnabled,
     mirror,
+    onSkip: handleSkip,
   };
 
   if (props.children) {

@@ -45,6 +45,8 @@ type FooterProps = {
   progressBarFillStyle?: StyleProp<ViewStyle>;
   dotsAreTappable?: boolean;
   mirror?: boolean;
+  nextDisabled?: boolean;
+  previousDisabled?: boolean;
   onDone?: () => void;
   onSkip?: () => void;
   onNext?: () => void;
@@ -77,6 +79,7 @@ export function Pagination(props: FooterProps) {
         {showPrevious && (
           <Button
             onPress={() => previousPage()}
+            disabled={props.previousDisabled}
             buttonTextStyle={props.previousLabelStyle}
             buttonStyle={props.previousButtonContainerStyle}
             label={props.previousLabel || 'Back'}
@@ -177,6 +180,7 @@ export function Pagination(props: FooterProps) {
         {!isDone && props.showNext && (
           <Button
             onPress={props.onNext}
+            disabled={props.nextDisabled}
             label={props.nextLabel || 'Next'}
             buttonTextStyle={props.nextLabelStyle}
             buttonStyle={props.nextButtonContainerStyle}

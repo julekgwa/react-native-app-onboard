@@ -24,6 +24,7 @@ type CustomPagesProps = OnboardingProps & {
   onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
   onScrollBeginDrag: () => void;
   nextPage: () => void;
+  scrollTo: (index: number, animated?: boolean) => void;
   numberOfScreens: number;
   // Accepted for prop-spread compatibility. Forced-`rtl` mirroring applies to
   // the declarative `pages` API; custom children follow the device direction.

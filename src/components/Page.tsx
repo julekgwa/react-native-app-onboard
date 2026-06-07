@@ -14,6 +14,12 @@ export type Page = {
   subtitle: string;
   image: React.ReactNode;
   backgroundColor: string;
+  /**
+   * Optional custom background element (e.g. a `LinearGradient`) rendered behind
+   * the page content and cross-faded as the user swipes. Falls back to
+   * `backgroundColor` when omitted.
+   */
+  background?: React.ReactNode;
   color?: string;
   width?: number;
   containerStyle?: StyleProp<ViewStyle>;
@@ -22,6 +28,16 @@ export type Page = {
   titleStyle?: StyleProp<TextStyle>;
   subtitleStyle?: StyleProp<TextStyle>;
   swap?: boolean;
+  /** Per-page override for the "Next" button label. */
+  nextLabel?: string | React.ReactNode;
+  /** Per-page override for the "Skip" button label. */
+  skipLabel?: string | React.ReactNode;
+  /** Per-page override for the "Done" button label. */
+  doneLabel?: string | React.ReactNode;
+  /** When `false`, blocks advancing past this page (swipe snaps back, Next disabled). */
+  canSwipeForward?: boolean;
+  /** When `false`, blocks returning from this page (swipe snaps back). */
+  canSwipeBackward?: boolean;
   /** Internal: counter-flips page content when the slider is mirrored for RTL. */
   mirror?: boolean;
 };

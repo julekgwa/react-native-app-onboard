@@ -14,6 +14,11 @@ export type OnboardingProps = {
   onDone?: () => void;
   onSkip?: () => void;
   onPageChange?: (index: number) => void;
+  /**
+   * When set, pressing "Skip" navigates to this page index instead of firing
+   * `onSkip` (e.g. skip intro slides but land on a sign-up slide in the flow).
+   */
+  skipToPage?: number;
   showPagination?: boolean;
   scrollEnabled?: boolean;
   autoPlay?: boolean;

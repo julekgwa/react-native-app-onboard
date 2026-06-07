@@ -208,6 +208,115 @@ describe('react-native-app-onboard', () => {
   });
 });
 
+describe('per-page features & skipToPage', () => {
+  const byLabel = (tree: any, label: string) =>
+    tree.root.findAll(
+      (n: any) =>
+        n.props?.accessibilityRole === 'button' &&
+        n.props?.accessibilityLabel === label
+    );
+
+  it('renders a custom per-page background element', () => {
+    let tree: any;
+    act(() => {
+      tree = create(
+        <Onboarding
+          pages={[
+            { ...threePages[0]!, background: <Text>BG-MARKER</Text> },
+            threePages[1]!,
+          ]}
+        />
+      );
+    });
+    const markers = tree.root.findAll(
+      (n: any) => n.props?.children === 'BG-MARKER'
+    );
+    expect(markers.length).toBeGreaterThan(0);
+  });
+
+  it('applies per-page button label overrides', () => {
+    let tree: any;
+    act(() => {
+      tree = create(
+        <Onboarding
+          showNext
+          pages={[
+            { ...threePages[0]!, nextLabel: 'ALPHA-NEXT' },
+            threePages[1]!,
+          ]}
+        />
+      );
+    });
+    expect(byLabel(tree, 'ALPHA-NEXT').length).toBeGreaterThan(0);
+  });
+
+  it('disables Next when canSwipeForward is false', () => {
+    let tree: any;
+    act(() => {
+      tree = create(
+        <Onboarding
+          showNext
+          pages={[
+            { ...threePages[0]!, canSwipeForward: false },
+            threePages[1]!,
+          ]}
+        />
+      );
+    });
+    const disabled = tree.root.findAll(
+      (n: any) =>
+        n.props?.accessibilityRole === 'button' &&
+        n.props?.accessibilityState?.disabled === true
+    );
+    expect(disabled.length).toBeGreaterThan(0);
+  });
+
+  it('disables swiping when the current page is gated', () => {
+    let tree: any;
+    act(() => {
+      tree = create(
+        <Onboarding
+          pages={[
+            { ...threePages[0]!, canSwipeForward: false },
+            threePages[1]!,
+          ]}
+        />
+      );
+    });
+    const lists = tree.root.findAll(
+      (n: any) => n.props?.pagingEnabled === true
+    );
+    expect(lists.some((n: any) => n.props.scrollEnabled === false)).toBe(true);
+  });
+
+  it('skipToPage navigates instead of firing onSkip', () => {
+    const onSkip = jest.fn();
+    let tree: any;
+    act(() => {
+      tree = create(
+        <Onboarding
+          showSkip
+          skipToPage={2}
+          onSkip={onSkip}
+          pages={threePages}
+        />
+      );
+    });
+    act(() => byLabel(tree, 'Skip')[0]?.props.onPress());
+    expect(onSkip).not.toHaveBeenCalled();
+  });
+
+  it('Skip fires onSkip when skipToPage is not set', () => {
+    const onSkip = jest.fn();
+    let tree: any;
+    act(() => {
+      tree = create(<Onboarding showSkip onSkip={onSkip} pages={threePages} />);
+    });
+    act(() => byLabel(tree, 'Skip')[0]?.props.onPress());
+    expect(onSkip).toHaveBeenCalled();
+  });
+});
+
 describe('persistence helpers (#8)', () => {
   const makeStorage = (): OnboardingStorageAdapter & {
     store: Map<string, string>;

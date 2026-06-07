@@ -12,6 +12,7 @@ type ButtonProps = {
   onPress?: () => void;
   label?: string | React.ReactNode;
   color?: string;
+  disabled?: boolean;
   buttonStyle?: StyleProp<ViewStyle>;
   buttonTextStyle?: StyleProp<TextStyle>;
 };
@@ -19,10 +20,12 @@ type ButtonProps = {
 export const Button = (props: ButtonProps) => {
   return typeof props.label === 'string' ? (
     <TouchableOpacity
-      onPress={props.onPress}
-      style={props.buttonStyle}
+      onPress={props.disabled ? undefined : props.onPress}
+      disabled={props.disabled}
+      style={[props.buttonStyle, props.disabled && styles.disabled]}
       accessibilityRole="button"
       accessibilityLabel={props.label}
+      accessibilityState={{ disabled: !!props.disabled }}
     >
       <Text
         style={[
@@ -101,5 +104,8 @@ const styles = StyleSheet.create({
   skipButton: {
     position: 'absolute',
     zIndex: 10,
+  },
+  disabled: {
+    opacity: 0.4,
   },
 });

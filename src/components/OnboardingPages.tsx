@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { getBrightness, lighten, darken } from '../utils/color';
 import {
   Animated,
+  View,
   StyleSheet,
   Dimensions,
   FlatList,
@@ -25,6 +26,7 @@ type Props = OnboardingProps & {
   onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
   onScrollBeginDrag: () => void;
   nextPage: () => void;
+  scrollTo: (index: number, animated?: boolean) => void;
   mirror?: boolean;
 };
 
@@ -44,6 +46,22 @@ export const OnboardingPages = ({
     getBrightness(footerBackgroundColor) > 180
       ? darken(footerBackgroundColor, 60)
       : lighten(footerBackgroundColor, 60);
+
+  // Per-page label overrides fall back to the top-level labels.
+  const nextLabel = currentPage_?.nextLabel ?? props.nextLabel;
+  const skipLabel = currentPage_?.skipLabel ?? props.skipLabel;
+  const doneLabel = currentPage_?.doneLabel ?? props.doneLabel;
+
+  // Per-page navigation gating (default allowed).
+  const canGoForward = currentPage_?.canSwipeForward !== false;
+  const canGoBackward = currentPage_?.canSwipeBackward !== false;
+  // Disable the gesture entirely when the current page gates either direction
+  // (FlatList can't block a single direction), so there's no swipe-then-snap
+  // bounce. The Next/Back buttons still navigate programmatically. Also honors
+  // a consumer-level `scrollEnabled={false}`.
+  const swipeEnabled =
+    props.scrollEnabled !== false && canGoForward && canGoBackward;
+  const hasCustomBackground = props.pages.some((p) => p.background != null);
 
   const interpolatedBackgroundColor = useMemo(() => {
     const pages = props.pages;
@@ -72,11 +90,13 @@ export const OnboardingPages = ({
     animatedValue: props.dotsAnimatedValue,
     showSkip: props.showSkip,
     numberOfScreens: props.pages.length,
-    skipLabel: props.skipLabel,
-    nextLabel: props.nextLabel,
+    skipLabel,
+    nextLabel,
     previousLabel: props.previousLabel,
     hasSkipPosition: !!props.skipButtonPosition,
-    doneLabel: props.doneLabel,
+    doneLabel,
+    nextDisabled: !canGoForward,
+    previousDisabled: !canGoBackward,
     paginationStyle: props.paginationStyle,
     progressBarStyle: props.progressBarStyle,
     progressBarFillStyle: props.progressBarFillStyle,
@@ -103,12 +123,39 @@ export const OnboardingPages = ({
         { backgroundColor: interpolatedBackgroundColor },
       ]}
     >
+      {hasCustomBackground && (
+        <View style={StyleSheet.absoluteFill} pointerEvents="none">
+          {props.pages.map((page, index) =>
+            page.background == null ? null : (
+              <Animated.View
+                key={index}
+                style={[
+                  StyleSheet.absoluteFill,
+                  {
+                    opacity: props.scrollX.interpolate({
+                      inputRange: [
+                        (index - 1) * pageWidth,
+                        index * pageWidth,
+                        (index + 1) * pageWidth,
+                      ],
+                      outputRange: [0, 1, 0],
+                      extrapolate: 'clamp',
+                    }),
+                  },
+                ]}
+              >
+                {page.background}
+              </Animated.View>
+            )
+          )}
+        </View>
+      )}
       {props.skipButtonPosition && props.showSkip && (
         <SkipButton
           buttonTextStyle={props.skipLabelStyle}
           buttonStyle={props.skipButtonContainerStyle}
           position={props.skipButtonPosition}
-          label={props.skipLabel}
+          label={skipLabel}
           onPress={props.onSkip}
         />
       )}
@@ -128,7 +175,7 @@ export const OnboardingPages = ({
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
-        scrollEnabled={props.scrollEnabled}
+        scrollEnabled={swipeEnabled}
         style={props.mirror ? styles.mirror : undefined}
         keyExtractor={(_, index) => index.toString()}
         renderItem={({ item, index }) => (
@@ -148,6 +195,15 @@ export const OnboardingPages = ({
           const pageIndex = Math.round(
             event.nativeEvent.contentOffset.x / pageWidth
           );
+          const current = props.currentPage;
+          // Honor per-page swipe gating by snapping back to the current page.
+          if (
+            (pageIndex > current && !canGoForward) ||
+            (pageIndex < current && !canGoBackward)
+          ) {
+            props.scrollTo(current);
+            return;
+          }
           props.setPage(pageIndex || 0);
         }}
       />

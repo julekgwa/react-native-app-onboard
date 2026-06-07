@@ -88,6 +88,7 @@ export default App;
 | `rtl`                       | `boolean`                         | `I18nManager.isRTL` | Optional. Renders the slider right-to-left. Defaults to the device direction; set explicitly to force a direction (applies to the declarative `pages` API). |
 | `onDone`                    | `() => void`                      |         | Optional. Callback function that is called when the "Done" button is pressed. |
 | `onSkip`                    | `() => void`                      |         | Optional. Callback function that is called when the "Skip" button is pressed. |
+| `skipToPage`                | `number`                          |         | Optional. When set, pressing "Skip" navigates to this page index instead of firing `onSkip` (e.g. skip the intro slides but land on a sign-up slide). Works for both APIs. |
 | `onPageChange`              | `(index: number) => void`         |         | Optional. Called with the new page index on every page change (swipe, button, or autoplay). Useful for analytics. |
 | `showPagination`            | `boolean`                         | `true`  | Optional. Determines whether pagination indicators are shown. |
 | `paginationStyle`           | `'dots'` \| `'progress'`          | `'dots'`| Optional. Renders the pagination as animated dots or as a progress bar. |
@@ -133,6 +134,10 @@ Each `Page` object in the `pages` prop should conform to the following structure
 | `subtitle`             | `string`                  | Yes      | The subtitle text for the page, providing additional information.           |
 | `image`                | `React.ReactNode`         | Yes      | A React Node representing the image to be displayed on the page.            |
 | `backgroundColor`      | `string`                  | Yes      | The background color for the page.                                          |
+| `background`           | `React.ReactNode`         | No       | Optional. Custom background element (e.g. a `LinearGradient`) rendered behind the content and cross-faded as the user swipes. Falls back to `backgroundColor`. |
+| `nextLabel` / `skipLabel` / `doneLabel` | `string` \| `React.ReactNode` | No | Optional. Per-page overrides for the Next/Skip/Done button labels (fall back to the top-level labels). |
+| `canSwipeForward`      | `boolean`                 | No       | Optional. When `false`, blocks advancing past this page: swiping is disabled and the Next button is disabled (the Back button still works). Default `true`. |
+| `canSwipeBackward`     | `boolean`                 | No       | Optional. When `false`, blocks returning from this page: swiping is disabled and the Back button is disabled (the Next button still works). Default `true`. |
 | `color`                | `string`                  | No       | Optional. The text color for the title and subtitle.                        |
 | `width`                | `number`                  | No       | Optional. The width of the page. Can be used to adjust the page width.      |
 | `containerStyle`       | `StyleProp<ViewStyle>`    | No       | Optional. Custom styles to be applied to the page's container view.         |
