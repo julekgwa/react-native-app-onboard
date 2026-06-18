@@ -366,11 +366,21 @@ describe('per-page features & skipToPage', () => {
       });
 
   it('applies a staggered entrance when animatePages is set', () => {
+    // Fake timers so the entrance animation's JS-driven frames can be drained
+    // here; otherwise a timer outlives the test and fires after Jest teardown.
+    jest.useFakeTimers();
     let tree: any;
-    act(() => {
-      tree = create(<Onboarding pages={threePages} animatePages />);
-    });
-    expect(titleHasOpacity(tree)).toBe(true);
+    try {
+      act(() => {
+        tree = create(<Onboarding pages={threePages} animatePages />);
+      });
+      act(() => {
+        jest.runAllTimers();
+      });
+      expect(titleHasOpacity(tree)).toBe(true);
+    } finally {
+      jest.useRealTimers();
+    }
   });
 
   it('has no entrance animation by default', () => {
