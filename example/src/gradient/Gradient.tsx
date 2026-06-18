@@ -38,6 +38,7 @@ export function Gradient(props: ScreenProps) {
       showNext
       showDone
       showPrevious
+      animatePages
       onSkip={props.onDone}
       onDone={props.onDone}
       previousLabel="Back"

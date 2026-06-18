@@ -26,7 +26,7 @@ export function Basic(props: ScreenProps) {
         skipButtonPosition="top-right"
         paginationPosition="bottom"
         paginationStyle="progress"
-        dotsAreTappable={true}
+        tappableDots={true}
         autoPlay={true}
         autoPlayInterval={4000}
         loop={true}

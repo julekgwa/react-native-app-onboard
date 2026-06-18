@@ -1,6 +1,6 @@
 import {
   View,
-  Text,
+  Animated,
   StyleSheet,
   Dimensions,
   type StyleProp,
@@ -8,6 +8,12 @@ import {
   type TextStyle,
 } from 'react-native';
 import React from 'react';
+
+export type EntranceConfig = {
+  stagger?: number;
+  duration?: number;
+  distance?: number;
+};
 
 export type Page = {
   title: string;
@@ -50,7 +56,58 @@ export type Page = {
 const { width, height } = Dimensions.get('window');
 const portrait = height > width;
 
-export function OnboardingPage(props: Page) {
+type OnboardingPageProps = Page & {
+  /** Internal: this page is the active (current) one. */
+  active?: boolean;
+  /** Internal: run the staggered entrance animation. */
+  animate?: boolean;
+  /** Internal: entrance animation tuning. */
+  entrance?: EntranceConfig;
+};
+
+export function OnboardingPage(props: OnboardingPageProps) {
+  const { active, animate } = props;
+  const stagger = props.entrance?.stagger ?? 120;
+  const duration = props.entrance?.duration ?? 400;
+  const distance = props.entrance?.distance ?? 24;
+
+  // One driver per element so they cascade. Created once; only consumed when
+  // `animate` is on, so the default (no-animation) path renders fully visible.
+  const imageA = React.useMemo(() => new Animated.Value(0), []);
+  const titleA = React.useMemo(() => new Animated.Value(0), []);
+  const subtitleA = React.useMemo(() => new Animated.Value(0), []);
+  const hasAnimated = React.useRef(false);
+
+  React.useEffect(() => {
+    if (!animate || !active || hasAnimated.current) return;
+    // Animate in once, the first time the page becomes active, then stay put.
+    hasAnimated.current = true;
+    Animated.stagger(stagger, [
+      Animated.timing(imageA, { toValue: 1, duration, useNativeDriver: true }),
+      Animated.timing(titleA, { toValue: 1, duration, useNativeDriver: true }),
+      Animated.timing(subtitleA, {
+        toValue: 1,
+        duration,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, [active, animate, stagger, duration, imageA, titleA, subtitleA]);
+
+  const entranceStyle = (value: Animated.Value) =>
+    animate
+      ? {
+          opacity: value,
+          transform: [
+            {
+              translateY: value.interpolate({
+                inputRange: [0, 1],
+                outputRange: [distance, 0],
+              }),
+            },
+          ],
+        }
+      : undefined;
+
   return (
     <View
       style={[
@@ -61,32 +118,36 @@ export function OnboardingPage(props: Page) {
         props.mirror && styles.mirror,
       ]}
     >
-      <View style={[styles.imageContainer, props.imageContainerStyle]}>
+      <Animated.View
+        style={[
+          styles.imageContainer,
+          props.imageContainerStyle,
+          entranceStyle(imageA),
+        ]}
+      >
         {props.image}
-      </View>
+      </Animated.View>
       <View style={[styles.titleContainer, props.titleContainerStyle]}>
-        <Text
+        <Animated.Text
           style={[
             styles.title,
-            {
-              color: props.color,
-            },
+            { color: props.color },
             props.titleStyle,
+            entranceStyle(titleA),
           ]}
         >
           {props.title}
-        </Text>
-        <Text
+        </Animated.Text>
+        <Animated.Text
           style={[
             styles.subtitle,
-            {
-              color: props.color,
-            },
+            { color: props.color },
             props.subtitleStyle,
+            entranceStyle(subtitleA),
           ]}
         >
           {props.subtitle}
-        </Text>
+        </Animated.Text>
       </View>
     </View>
   );
@@ -110,7 +171,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   imageContainer: {
-    flex: 0,
+    // No `flex` here: on react-native-web `flex: 0` compiles to CSS
+    // `flex: 0 0 0%`, collapsing the container to zero height so the image
+    // overflows across the title. Omitting it leaves the box content-sized
+    // (flexShrink defaults to 0 in React Native) on both web and native.
     paddingBottom: portrait ? 60 : 10,
     alignItems: 'center',
     width: '100%',

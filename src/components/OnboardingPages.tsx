@@ -102,7 +102,7 @@ export const OnboardingPages = ({
     paginationStyle: props.paginationStyle,
     progressBarStyle: props.progressBarStyle,
     progressBarFillStyle: props.progressBarFillStyle,
-    dotsAreTappable: props.dotsAreTappable,
+    tappableDots: props.tappableDots,
     mirror: props.mirror,
     paginationContainerStyle: props.paginationContainerStyle,
     buttonRightContainerStyle: props.buttonRightContainerStyle,
@@ -180,6 +180,7 @@ export const OnboardingPages = ({
         scrollEnabled={swipeEnabled}
         style={props.mirror ? styles.mirror : undefined}
         keyExtractor={(_, index) => index.toString()}
+        extraData={props.currentPage}
         renderItem={({ item, index }) => (
           <OnboardingPage
             color={color}
@@ -188,6 +189,9 @@ export const OnboardingPages = ({
             mirror={props.mirror}
             key={index}
             {...item}
+            active={index === props.currentPage}
+            animate={props.animatePages}
+            entrance={props.entranceConfig}
           />
         )}
         onScroll={props.onScroll}

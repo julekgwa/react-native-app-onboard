@@ -66,7 +66,7 @@ export const CustomPages = ({
     paginationStyle: props.paginationStyle,
     progressBarStyle: props.progressBarStyle,
     progressBarFillStyle: props.progressBarFillStyle,
-    dotsAreTappable: props.dotsAreTappable,
+    tappableDots: props.tappableDots,
     paginationContainerStyle: props.paginationContainerStyle,
     buttonRightContainerStyle: props.buttonRightContainerStyle,
     buttonLeftContainerStyle: props.buttonLeftContainerStyle,

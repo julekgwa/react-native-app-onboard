@@ -52,9 +52,16 @@ export type OnboardingProps = {
   paginationStyle?: 'dots' | 'progress';
   progressBarStyle?: StyleProp<ViewStyle>;
   progressBarFillStyle?: StyleProp<ViewStyle>;
-  dotsAreTappable?: boolean;
+  tappableDots?: boolean;
   scrollAnimationDuration?: number;
   useNativeDriver?: boolean;
+  /**
+   * When `true`, the image, title, and subtitle of the active page animate in
+   * with a staggered fade + slide-up. Applies to the declarative `pages` API.
+   */
+  animatePages?: boolean;
+  /** Tuning for `animatePages` (ms between elements, ms per element, slide-up px). */
+  entranceConfig?: { stagger?: number; duration?: number; distance?: number };
   rtl?: boolean;
   width?: number;
   color?: string;

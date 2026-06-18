@@ -43,7 +43,7 @@ type FooterProps = {
   paginationStyle?: 'dots' | 'progress';
   progressBarStyle?: StyleProp<ViewStyle>;
   progressBarFillStyle?: StyleProp<ViewStyle>;
-  dotsAreTappable?: boolean;
+  tappableDots?: boolean;
   mirror?: boolean;
   nextDisabled?: boolean;
   previousDisabled?: boolean;
@@ -64,6 +64,7 @@ export function Pagination(props: FooterProps) {
       style={[
         styles.pagination,
         {
+          width,
           backgroundColor: props.backgroundColor,
         },
         props.paginationContainerStyle,
@@ -134,7 +135,7 @@ export function Pagination(props: FooterProps) {
               extrapolate: 'clamp',
             });
             const dotProps = {
-              accessibilityRole: props.dotsAreTappable
+              accessibilityRole: props.tappableDots
                 ? ('button' as const)
                 : ('image' as const),
               accessibilityLabel: `Page ${i + 1} of ${props.numberOfScreens}`,
@@ -152,7 +153,7 @@ export function Pagination(props: FooterProps) {
                 ]}
               />
             );
-            return props.dotsAreTappable ? (
+            return props.tappableDots ? (
               <Pressable
                 key={i}
                 onPress={() => scrollTo(i)}

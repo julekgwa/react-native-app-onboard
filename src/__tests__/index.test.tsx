@@ -352,6 +352,34 @@ describe('per-page features & skipToPage', () => {
     });
     expect(tree.toJSON()).toBeDefined();
   });
+
+  const titleHasOpacity = (tree: any) =>
+    tree.root
+      .findAll((n: any) => n.props?.children === 'A')
+      .some((n: any) => {
+        const arr = Array.isArray(n.props.style)
+          ? n.props.style
+          : [n.props.style];
+        return arr.some(
+          (x: any) => x && typeof x === 'object' && 'opacity' in x
+        );
+      });
+
+  it('applies a staggered entrance when animatePages is set', () => {
+    let tree: any;
+    act(() => {
+      tree = create(<Onboarding pages={threePages} animatePages />);
+    });
+    expect(titleHasOpacity(tree)).toBe(true);
+  });
+
+  it('has no entrance animation by default', () => {
+    let tree: any;
+    act(() => {
+      tree = create(<Onboarding pages={threePages} />);
+    });
+    expect(titleHasOpacity(tree)).toBe(false);
+  });
 });
 
 describe('persistence helpers (#8)', () => {
